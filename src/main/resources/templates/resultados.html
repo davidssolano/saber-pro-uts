@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados - Saber Pro UTS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: system-ui, sans-serif; background: #f5f7fb; color: #1f2933; margin: 0; }
+        header { background: #1e3a8a; color: white; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: white; margin-left: 1rem; text-decoration: none; font-size: 0.95rem; }
+        nav a:hover { text-decoration: underline; }
+        main { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+        h1 { margin-bottom: 1rem; }
+        .acciones { margin-bottom: 1rem; }
+        .btn { display: inline-block; padding: 0.55rem 0.9rem; border-radius: 8px; text-decoration: none; border: 1px solid #1d4ed8; color: #1d4ed8; background: white; }
+        .btn:hover { background: #1d4ed8; color: white; }
+        table { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05); }
+        th, td { padding: 0.75rem; border-bottom: 1px solid #e5e7eb; text-align: left; }
+        th { background: #eef2ff; color: #111827; }
+        tr:hover td { background: #f3f4f6; }
+        .alert { padding: 0.8rem 1rem; border-radius: 8px; margin-bottom: 1rem; }
+        .alert-success { background: #ecfdf3; color: #166534; border: 1px solid #bbf7d0; }
+        .alert-error { background: #fef2f2; color: #b91c1c; border: 1px solid #fecdd3; }
+    </style>
+</head>
+<body>
+<header>
+    <div>
+        <strong>Saber Pro UTS</strong>
+        <span style="margin-left: 0.5rem; opacity: 0.85;">Resultados de pruebas</span>
+    </div>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/estudiantes">Estudiantes</a>
+        <a href="/incentivos">Incentivos</a>
+        <a href="/reportes">Reportes</a>
+    </nav>
+</header>
+<main>
+    <h1>Resultados Saber Pro</h1>
+
+    <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
+    <div class="acciones">
+        <a class="btn" href="/resultados/nuevo">+ Nuevo resultado</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Estudiante</th>
+            <th>Fecha</th>
+            <th>Puntaje global</th>
+            <th>Lectura</th>
+            <th>Razonamiento</th>
+            <th>Inglés</th>
+            <th>Com. escrita</th>
+            <th>Comp. ciudadanas</th>
+            <th>Formulación</th>
+            <th>Incentivos</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="resultado : ${resultados}">
+            <td th:text="${resultado.estudiante.nombreCompleto}"></td>
+            <td th:text="${resultado.fechaPresentacion}"></td>
+            <td th:text="${resultado.puntajeGlobal}"></td>
+            <td th:text="${resultado.lecturaCritica}"></td>
+            <td th:text="${resultado.razonamientoCuantitativo}"></td>
+            <td th:text="${resultado.ingles}"></td>
+            <td th:text="${resultado.comunicacionEscrita}"></td>
+            <td th:text="${resultado.competenciasCiudadanas}"></td>
+            <td th:text="${resultado.formulacionProyectos}"></td>
+            <td>
+                <div th:with="lista=${incentivosPorResultado[resultado.id]}">
+                    <span th:if="${lista != null and !#lists.isEmpty(lista)}" th:each="inc : ${lista}" class="btn" style="margin:0.1rem 0.1rem 0 0;" th:text="${inc.nombre}"></span>
+                    <span th:if="${lista == null or #lists.isEmpty(lista)}" style="color:#6b7280;">Sin incentivos</span>
+                </div>
+            </td>
+            <td>
+                <a class="btn" th:href="@{'/resultados/editar/' + ${resultado.id}}">Editar</a>
+                <a class="btn" th:href="@{'/resultados/eliminar/' + ${resultado.id}}" onclick="return confirm('¿Eliminar este resultado?');">Eliminar</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(resultados)}">
+            <td colspan="11" style="text-align: center; color: #6b7280;">No hay resultados registrados.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

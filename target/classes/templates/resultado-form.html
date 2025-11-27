@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Formulario resultado</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: system-ui, sans-serif; background: #f5f7fb; color: #1f2933; margin: 0; }
+        header { background: #1e3a8a; color: white; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: white; margin-left: 1rem; text-decoration: none; }
+        nav a:hover { text-decoration: underline; }
+        main { max-width: 900px; margin: 2rem auto; background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(15,23,42,0.08); }
+        form { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem 1.2rem; }
+        label { font-weight: 600; font-size: 0.95rem; }
+        input, select { width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid #e5e7eb; margin-top: 0.35rem; }
+        .acciones { margin-top: 1.4rem; display: flex; gap: 0.8rem; }
+        .btn { padding: 0.55rem 0.9rem; border-radius: 8px; border: 1px solid #1d4ed8; color: #1d4ed8; background: white; text-decoration: none; cursor: pointer; }
+        .btn.primary { background: #1d4ed8; color: white; }
+        .error { color: #b91c1c; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+<header>
+    <div>
+        <strong>Saber Pro UTS</strong>
+        <span style="margin-left: 0.5rem; opacity: 0.85;">Formulario de resultado</span>
+    </div>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/resultados">Resultados</a>
+    </nav>
+</header>
+<main>
+    <h1 th:text="${titulo}">Formulario resultado</h1>
+    <form th:action="${resultado.id} != null ? @{'/resultados/' + ${resultado.id}} : @{/resultados}" th:object="${resultado}" method="post">
+        <div>
+            <label for="estudiante">Estudiante</label>
+            <select id="estudiante" th:field="*{estudiante}" required>
+                <option value="" disabled selected>Seleccione un estudiante</option>
+                <option th:each="est : ${estudiantes}" th:value="${est.id}" th:text="${est.nombreCompleto}"></option>
+            </select>
+            <div class="error" th:if="${#fields.hasErrors('estudiante')}" th:errors="*{estudiante}"></div>
+        </div>
+        <div>
+            <label for="fechaPresentacion">Fecha de presentación</label>
+            <input id="fechaPresentacion" type="date" th:field="*{fechaPresentacion}">
+            <div class="error" th:if="${#fields.hasErrors('fechaPresentacion')}" th:errors="*{fechaPresentacion}"></div>
+        </div>
+        <div>
+            <label for="lecturaCritica">Lectura crítica</label>
+            <input id="lecturaCritica" type="number" min="0" max="300" th:field="*{lecturaCritica}">
+            <div class="error" th:if="${#fields.hasErrors('lecturaCritica')}" th:errors="*{lecturaCritica}"></div>
+        </div>
+        <div>
+            <label for="razonamientoCuantitativo">Razonamiento cuantitativo</label>
+            <input id="razonamientoCuantitativo" type="number" min="0" max="300" th:field="*{razonamientoCuantitativo}">
+            <div class="error" th:if="${#fields.hasErrors('razonamientoCuantitativo')}" th:errors="*{razonamientoCuantitativo}"></div>
+        </div>
+        <div>
+            <label for="ingles">Inglés</label>
+            <input id="ingles" type="number" min="0" max="300" th:field="*{ingles}">
+            <div class="error" th:if="${#fields.hasErrors('ingles')}" th:errors="*{ingles}"></div>
+        </div>
+        <div>
+            <label for="comunicacionEscrita">Comunicación escrita</label>
+            <input id="comunicacionEscrita" type="number" min="0" max="300" th:field="*{comunicacionEscrita}">
+            <div class="error" th:if="${#fields.hasErrors('comunicacionEscrita')}" th:errors="*{comunicacionEscrita}"></div>
+        </div>
+        <div>
+            <label for="competenciasCiudadanas">Competencias ciudadanas</label>
+            <input id="competenciasCiudadanas" type="number" min="0" max="300" th:field="*{competenciasCiudadanas}">
+            <div class="error" th:if="${#fields.hasErrors('competenciasCiudadanas')}" th:errors="*{competenciasCiudadanas}"></div>
+        </div>
+        <div>
+            <label for="formulacionProyectos">Formulación de proyectos</label>
+            <input id="formulacionProyectos" type="number" min="0" max="300" th:field="*{formulacionProyectos}">
+            <div class="error" th:if="${#fields.hasErrors('formulacionProyectos')}" th:errors="*{formulacionProyectos}"></div>
+        </div>
+        <div>
+            <label for="puntajeGlobal">Puntaje global</label>
+            <input id="puntajeGlobal" type="number" min="0" max="300" th:field="*{puntajeGlobal}">
+            <div class="error" th:if="${#fields.hasErrors('puntajeGlobal')}" th:errors="*{puntajeGlobal}"></div>
+        </div>
+        <div class="acciones">
+            <button type="submit" class="btn primary">Guardar</button>
+            <a class="btn" href="/resultados">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

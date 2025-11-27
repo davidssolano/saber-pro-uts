@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reportes - Saber Pro UTS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: system-ui, sans-serif; background: #f5f7fb; color: #1f2933; margin: 0; }
+        header { background: #1e3a8a; color: white; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: white; margin-left: 1rem; text-decoration: none; font-size: 0.95rem; }
+        nav a:hover { text-decoration: underline; }
+        main { max-width: 1100px; margin: 2rem auto; padding: 0 1rem; }
+        h1 { margin-bottom: 1rem; }
+        .card { background: white; padding: 1.2rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(15,23,42,0.05); margin-bottom: 1.5rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 0.8rem; }
+        th, td { padding: 0.75rem; border-bottom: 1px solid #e5e7eb; text-align: left; }
+        th { background: #eef2ff; color: #111827; }
+        .muted { color: #6b7280; }
+    </style>
+</head>
+<body>
+<header>
+    <div>
+        <strong>Saber Pro UTS</strong>
+        <span style="margin-left: 0.5rem; opacity: 0.85;">Reportes y análisis</span>
+    </div>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/estudiantes">Estudiantes</a>
+        <a href="/resultados">Resultados</a>
+    </nav>
+</header>
+<main>
+    <h1>Reportes</h1>
+
+    <section class="card">
+        <h2>Promedio global</h2>
+        <p class="muted">Puntaje promedio de todos los estudiantes registrados.</p>
+        <h3 th:text="${#numbers.formatDecimal(promedioGlobal, 1, 'COMMA', 2, 'POINT')}">0</h3>
+    </section>
+
+    <section class="card">
+        <h2>Promedio por programa</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Programa</th>
+                <th>Promedio</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="fila : ${promedioPorPrograma}">
+                <td th:text="${fila.programa}"></td>
+                <td th:text="${#numbers.formatDecimal(fila.promedio, 1, 'COMMA', 2, 'POINT')}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(promedioPorPrograma)}">
+                <td colspan="2" class="muted" style="text-align:center;">Sin datos suficientes.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section class="card">
+        <h2>Top 5 puntajes globales</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>Estudiante</th>
+                <th>Programa</th>
+                <th>Puntaje global</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="res : ${topResultados}">
+                <td th:text="${res.estudiante.nombreCompleto}"></td>
+                <td th:text="${res.estudiante.programa}"></td>
+                <td th:text="${res.puntajeGlobal}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(topResultados)}">
+                <td colspan="3" class="muted" style="text-align:center;">Aún no hay resultados registrados.</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+</body>
+</html>

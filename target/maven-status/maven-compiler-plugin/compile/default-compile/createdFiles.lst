@@ -1,0 +1,13 @@
+com\uts\saberpro\repository\EstudianteRepository.class
+com\uts\saberpro\student\StudentRepository.class
+com\uts\saberpro\student\StudentController.class
+com\uts\saberpro\repository\ResultadoRepository.class
+com\uts\saberpro\controller\EstudianteController.class
+com\uts\saberpro\model\Resultado.class
+com\uts\saberpro\controller\ReporteController.class
+com\uts\saberpro\controller\HomeController.class
+com\uts\saberpro\model\Estudiante.class
+com\uts\saberpro\controller\ResultadoMvcController.class
+com\uts\saberpro\student\Student.class
+com\uts\saberpro\controller\ResultadoController.class
+com\uts\saberpro\SaberProApplication.class

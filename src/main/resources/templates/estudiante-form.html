@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Formulario estudiante</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: system-ui, sans-serif; background: #f5f7fb; color: #1f2933; margin: 0; }
+        header { background: #1e3a8a; color: white; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: white; margin-left: 1rem; text-decoration: none; }
+        nav a:hover { text-decoration: underline; }
+        main { max-width: 720px; margin: 2rem auto; background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(15,23,42,0.08); }
+        form { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem 1.2rem; }
+        label { font-weight: 600; font-size: 0.95rem; }
+        input { width: 100%; padding: 0.65rem; border-radius: 8px; border: 1px solid #e5e7eb; margin-top: 0.35rem; }
+        .acciones { margin-top: 1.4rem; display: flex; gap: 0.8rem; }
+        .btn { padding: 0.55rem 0.9rem; border-radius: 8px; border: 1px solid #1d4ed8; color: #1d4ed8; background: white; text-decoration: none; cursor: pointer; }
+        .btn.primary { background: #1d4ed8; color: white; }
+        .error { color: #b91c1c; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+<header>
+    <div>
+        <strong>Saber Pro UTS</strong>
+        <span style="margin-left: 0.5rem; opacity: 0.85;">Formulario de estudiante</span>
+    </div>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/estudiantes">Estudiantes</a>
+    </nav>
+</header>
+<main>
+    <h1 th:text="${titulo}">Formulario estudiante</h1>
+    <form th:action="${estudiante.id} != null ? @{'/estudiantes/' + ${estudiante.id}} : @{/estudiantes}" th:object="${estudiante}" method="post">
+        <div>
+            <label for="documento">Documento</label>
+            <input id="documento" type="text" th:field="*{documento}" placeholder="Documento de identidad">
+            <div class="error" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}"></div>
+        </div>
+        <div>
+            <label for="nombreCompleto">Nombre completo</label>
+            <input id="nombreCompleto" type="text" th:field="*{nombreCompleto}" placeholder="Nombre y apellidos">
+            <div class="error" th:if="${#fields.hasErrors('nombreCompleto')}" th:errors="*{nombreCompleto}"></div>
+        </div>
+        <div>
+            <label for="correo">Correo</label>
+            <input id="correo" type="email" th:field="*{correo}" placeholder="correo@uts.edu.co">
+            <div class="error" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></div>
+        </div>
+        <div>
+            <label for="programa">Programa</label>
+            <input id="programa" type="text" th:field="*{programa}" placeholder="Ingeniería de Sistemas">
+            <div class="error" th:if="${#fields.hasErrors('programa')}" th:errors="*{programa}"></div>
+        </div>
+        <div>
+            <label for="semestre">Semestre</label>
+            <input id="semestre" type="number" min="1" th:field="*{semestre}" placeholder="1-12">
+            <div class="error" th:if="${#fields.hasErrors('semestre')}" th:errors="*{semestre}"></div>
+        </div>
+        <div class="acciones">
+            <button type="submit" class="btn primary">Guardar</button>
+            <a class="btn" href="/estudiantes">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>
