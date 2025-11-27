@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Formulario incentivo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: system-ui, sans-serif; background: #f5f7fb; color: #1f2933; margin: 0; }
+        header { background: #1e3a8a; color: white; padding: 1.2rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        nav a { color: white; margin-left: 1rem; text-decoration: none; font-size: 0.95rem; }
+        nav a:hover { text-decoration: underline; }
+        main { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+        h1 { margin-bottom: 1rem; }
+        form { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05); }
+        .campo { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.3rem; font-weight: 600; }
+        input, textarea { width: 100%; padding: 0.6rem; border-radius: 8px; border: 1px solid #d1d5db; font-size: 1rem; }
+        textarea { min-height: 90px; }
+        .acciones { display: flex; gap: 0.8rem; margin-top: 1rem; }
+        .btn { display: inline-block; padding: 0.6rem 1rem; border-radius: 8px; text-decoration: none; border: 1px solid #1d4ed8; color: #1d4ed8; background: white; }
+        .btn:hover { background: #1d4ed8; color: white; }
+        .error { color: #b91c1c; font-size: 0.9rem; margin-top: 0.2rem; }
+        .grupo { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <div>
+        <strong>Saber Pro UTS</strong>
+        <span style="margin-left: 0.5rem; opacity: 0.85;">Incentivos</span>
+    </div>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/incentivos">Volver</a>
+    </nav>
+</header>
+<main>
+    <h1 th:text="${titulo}"></h1>
+    <form th:action="@{/incentivos}" th:object="${incentivo}" method="post">
+        <input type="hidden" th:field="*{id}">
+        <div class="campo">
+            <label for="nombre">Nombre del incentivo</label>
+            <input id="nombre" type="text" th:field="*{nombre}" placeholder="Beca excelencia">
+            <div class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+        </div>
+        <div class="campo">
+            <label for="tipoBeneficio">Tipo de beneficio</label>
+            <input id="tipoBeneficio" type="text" th:field="*{tipoBeneficio}" placeholder="Exoneración, beca, etc.">
+            <div class="error" th:if="${#fields.hasErrors('tipoBeneficio')}" th:errors="*{tipoBeneficio}"></div>
+        </div>
+        <div class="campo">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" th:field="*{descripcion}" placeholder="Condiciones y detalle del beneficio"></textarea>
+            <div class="error" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}"></div>
+        </div>
+        <div class="campo grupo">
+            <div>
+                <label for="puntajeMinimo">Puntaje mínimo</label>
+                <input id="puntajeMinimo" type="number" step="1" min="0" max="500" th:field="*{puntajeMinimo}">
+                <div class="error" th:if="${#fields.hasErrors('puntajeMinimo')}" th:errors="*{puntajeMinimo}"></div>
+            </div>
+            <div>
+                <label for="puntajeMaximo">Puntaje máximo</label>
+                <input id="puntajeMaximo" type="number" step="1" min="0" max="500" th:field="*{puntajeMaximo}">
+                <div class="error" th:if="${#fields.hasErrors('puntajeMaximo')}" th:errors="*{puntajeMaximo}"></div>
+            </div>
+        </div>
+        <div class="campo">
+            <label for="programaObjetivo">Programa objetivo (opcional)</label>
+            <input id="programaObjetivo" type="text" th:field="*{programaObjetivo}" placeholder="Ingeniería de Sistemas">
+        </div>
+        <div class="campo grupo">
+            <div>
+                <label for="vigenciaInicio">Vigencia inicio</label>
+                <input id="vigenciaInicio" type="date" th:field="*{vigenciaInicio}">
+                <div class="error" th:if="${#fields.hasErrors('vigenciaInicio')}" th:errors="*{vigenciaInicio}"></div>
+            </div>
+            <div>
+                <label for="vigenciaFin">Vigencia fin</label>
+                <input id="vigenciaFin" type="date" th:field="*{vigenciaFin}">
+                <div class="error" th:if="${#fields.hasErrors('vigenciaFin')}" th:errors="*{vigenciaFin}"></div>
+            </div>
+        </div>
+        <div class="campo">
+            <label>
+                <input type="checkbox" th:field="*{activo}"> Incentivo activo
+            </label>
+        </div>
+        <div class="acciones">
+            <button type="submit" class="btn">Guardar</button>
+            <a class="btn" href="/incentivos">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>
